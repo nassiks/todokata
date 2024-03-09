@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import NewTaskList from "../new-task-list";
 import TaskList from "../task-list";
@@ -6,25 +6,46 @@ import Footer from "../footer";
 
 import "./app.css";
 
-const App = () => {
+export default class App extends Component {
 
-    const task = {
-        id: 1,
-        description: 'description',
-        created: new Date().toString(),
-        completed: false
+    state = {
+        todoData: [
+            {id: 1, description: 'one', created: new Date().toString()},
+            {id: 2, description: 'two', created: new Date().toString()},
+            {id: 3, description: 'three', created: new Date().toString()}
+        ],
+    };
+
+    get count () {
+        return this.state.todoData.length;
     }
 
-    const filter = 'filter';
-    const count = 1;
+    onDeleteItem = (id) => {
+        this.setState(({ todoData }) => {
+            const idx = todoData.findIndex((el) => el.id === id);
 
-    return (
-        <section className="todoapp">
-            <NewTaskList />
-            <TaskList task={task}/>
-            <Footer count={count} filter={filter}/>
-        </section>
-    );
-};
+            const newArray = [
+                ...todoData.slice(0, idx),
+                ...todoData.slice(idx + 1)
+            ];
 
-export default App;
+            return {
+                todoData: newArray
+            };
+        });
+    };
+
+    filter = 'filter';
+    render() {
+        return (
+            <section className="todoapp">
+                <NewTaskList />
+                <TaskList
+                    tasks={this.state.todoData}
+                    onDeleted={this.onDeleteItem}
+                />
+                <Footer count={this.count} filter={this.filter}/>
+            </section>
+        );
+    }
+}
