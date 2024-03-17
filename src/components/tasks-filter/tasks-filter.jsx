@@ -4,7 +4,7 @@ import "./tasks-filter.css";
 
 export default class TasksFilter extends Component {
     render() {
-        const { filter } = this.props;
+        const { filter, onFilterChange } = this.props;
 
         const buttons = [
             { name: 'all', label: 'All' },
@@ -17,7 +17,9 @@ export default class TasksFilter extends Component {
                 {buttons.map(({ name, label }) => (
                     <li key={name}>
                         <button
-                            className={filter === name ? "selected" : ""}>
+                            className={filter === name ? "selected" : ""}
+                            onClick={()=>onFilterChange(name)}
+                        >
                             {label}
                         </button>
                     </li>

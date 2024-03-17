@@ -5,7 +5,7 @@ import "./task-list.css";
 
 export default class TaskList extends Component {
     render() {
-        const { tasks, onDeleted } = this.props;
+        const { tasks, onDeleted, onToggleCompleted  } = this.props;
 
         return (
             <section className="main">
@@ -14,6 +14,7 @@ export default class TaskList extends Component {
                         <Task
                             { ...task }
                             onDeleted={ () => onDeleted(task.id) }
+                            onToggleCompleted={ () => onToggleCompleted(task.id) }
                         />
                     ))}
                 </ul>
