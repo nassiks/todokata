@@ -8,7 +8,7 @@ import "./app.css";
 
 export default class App extends Component {
 
-    maxId = 1;
+    maxId = 0;
 
     state = {
         todoData: [],
@@ -18,8 +18,8 @@ export default class App extends Component {
     createTodoItem(description) {
         return {
             id: this.maxId++,
-            description,
-            created: new Date().toISOString(),
+            description: description,
+            created: new Date(),
             completed: false
         };
     };
@@ -79,6 +79,26 @@ export default class App extends Component {
         });
     };
 
+    onSaveEdit = (id, newText) => {
+        this.setState(({ todoData }) => {
+            const idx = todoData.findIndex((el) => el.id === id);
+
+            const oldItem = todoData[idx];
+            const newItem = { ...oldItem, description: newText};
+
+            const newArray = [
+                ...todoData.slice(0, idx),
+                newItem,
+                ...todoData.slice(idx + 1)
+            ];
+
+            return {
+                todoData: newArray
+            };
+
+        });
+    };
+
     onFilterChange = (filter) => {
         this.setState({ filter });
     };
@@ -106,13 +126,21 @@ export default class App extends Component {
         return (
 
             <section className="todoapp">
-                <NewTaskList onItemAdded={this.onItemAdded}/>
+                <NewTaskList
+                    onItemAdded={this.onItemAdded}
+                />
                 <TaskList
                     tasks={visibleItems}
                     onDeleted={this.onDeleteItem}
                     onToggleCompleted={this.onToggleCompleted}
+                    onSaveEdit={this.onSaveEdit}
                 />
-                <Footer todoCount={todoCount} filter={filter} onFilterChange={this.onFilterChange} onDeletedCompleted={this.onDeletedCompleted}/>
+                <Footer
+                    todoCount={todoCount}
+                    filter={filter}
+                    onFilterChange={this.onFilterChange}
+                    onDeletedCompleted={this.onDeletedCompleted}
+                />
             </section>
         );
     }

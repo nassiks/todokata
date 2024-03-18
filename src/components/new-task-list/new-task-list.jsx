@@ -1,8 +1,16 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 import "./new-task-list.css";
 
 export default class NewTaskList extends Component {
+    static defaultProps = {
+        onItemAdded: () => {}
+    };
+
+    static propTypes = {
+        onItemAdded: PropTypes.func
+    };
 
     state = {
         label: ''
@@ -16,10 +24,16 @@ export default class NewTaskList extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.onItemAdded(this.state.label);
-        this.setState({
-            label: ''
-        });
+        const { label } = this.state;
+
+        if (label.trim().length > 0) {
+            this.props.onItemAdded(label);
+            this.setState({
+                label: ''
+            });
+        } else {
+            console.log("Введена пустая строка");
+        }
     };
 
     render() {

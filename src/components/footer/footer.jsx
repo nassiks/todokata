@@ -1,11 +1,24 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 import TasksFilter from "../tasks-filter";
 
 import "./footer.css";
 
 export default class Footer extends Component {
+    static defaultProps = {
+        todoCount: 0,
+        filter: 'all',
+        onFilterChange: () => {},
+        onDeletedCompleted: () => {}
+    };
 
+    static propTypes = {
+        todoCount: PropTypes.number,
+        filter: PropTypes.oneOf(['all', 'active', 'completed']),
+        onFilterChange: PropTypes.func,
+        onDeletedCompleted: PropTypes.func,
+    };
     render() {
         const { todoCount, filter, onFilterChange, onDeletedCompleted} = this.props;
 
