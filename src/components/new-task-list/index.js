@@ -1,3 +1,3 @@
-import NewTaskList from "./new-task-list";
+import NewTaskList from './new-task-list'
 
-export default NewTaskList;
+export default NewTaskList
