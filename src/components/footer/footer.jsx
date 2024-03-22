@@ -19,7 +19,6 @@ export default class Footer extends Component {
   }
   render() {
     const { todoCount, filter, onFilterChange, onDeletedCompleted } = this.props
-
     return (
       <footer className="footer">
         <span className="todo-count">{todoCount} items left</span>
