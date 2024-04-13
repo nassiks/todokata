@@ -41,6 +41,7 @@ html .clear-completed:active {
 .footer button {
     display: inline-block;
     color: inherit;
+    background-color: inherit;
     margin: 3px;
     padding: 3px 7px;
     text-decoration: none;

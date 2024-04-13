@@ -21,10 +21,20 @@ export default class TaskList extends Component {
     onDeleted: PropTypes.func,
     onToggleCompleted: PropTypes.func,
     onSaveEdit: PropTypes.func,
+    startTimer: PropTypes.func,
+    pauseTimer: PropTypes.func,
+    timerTimes: PropTypes.objectOf(
+      PropTypes.shape({
+        time: PropTypes.number.isRequired,
+        running: PropTypes.bool.isRequired,
+        finished: PropTypes.bool.isRequired,
+        duration: PropTypes.number,
+      })
+    ),
   }
 
   render() {
-    const { tasks, onDeleted, onToggleCompleted, onSaveEdit } = this.props
+    const { tasks, onDeleted, onToggleCompleted, onSaveEdit, timerTimes, startTimer, pauseTimer } = this.props
 
     return (
       <section className="main">
@@ -33,6 +43,9 @@ export default class TaskList extends Component {
             <Task
               key={task.id}
               {...task}
+              startTimer={startTimer}
+              pauseTimer={pauseTimer}
+              timerState={timerTimes[task.id]}
               onDeleted={() => onDeleted(task.id)}
               onSaveEdit={onSaveEdit}
               onToggleCompleted={() => onToggleCompleted(task.id)}

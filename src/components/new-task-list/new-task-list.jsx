@@ -10,6 +10,8 @@ export default class NewTaskList extends Component {
 
   state = {
     label: '',
+    minutes: '',
+    seconds: '',
   }
 
   onLabelChange = (e) => {
@@ -18,17 +20,27 @@ export default class NewTaskList extends Component {
     })
   }
 
+  onMinutesChange = (e) => {
+    this.setState({ minutes: e.target.value })
+  }
+
+  onSecondsChange = (e) => {
+    this.setState({ seconds: e.target.value })
+  }
+
   onSubmit = (e) => {
     e.preventDefault()
-    const { label } = this.state
+    const { label, minutes, seconds } = this.state
 
     if (label.trim().length > 0) {
-      this.props.onItemAdded(label)
+      this.props.onItemAdded(label, minutes, seconds)
       this.setState({
         label: '',
+        minutes: '',
+        seconds: '',
       })
     } else {
-      console.log('Введена пустая строка')
+      return {}
     }
   }
 
@@ -36,14 +48,34 @@ export default class NewTaskList extends Component {
     return (
       <header className="header">
         <h1>todos</h1>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.onSubmit} className="new-todo-form">
           <input
             className="new-todo"
-            placeholder="What needs to be done?"
+            placeholder="Task"
             onChange={this.onLabelChange}
             value={this.state.label}
             autoFocus
           />
+          <input
+            className="new-todo-form__timer"
+            placeholder="Min"
+            value={this.state.minutes}
+            onChange={this.onMinutesChange}
+            type="number"
+            min="0"
+            autoFocus
+          />
+          <input
+            className="new-todo-form__timer"
+            placeholder="Sec"
+            value={this.state.seconds}
+            onChange={this.onSecondsChange}
+            type="number"
+            min="0"
+            max="59"
+            autoFocus
+          />
+          <button type="submit" className="button-hidden"></button>
         </form>
       </header>
     )
