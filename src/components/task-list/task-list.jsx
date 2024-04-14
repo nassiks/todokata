@@ -25,7 +25,7 @@ export default class TaskList extends Component {
     pauseTimer: PropTypes.func,
     timerTimes: PropTypes.objectOf(
       PropTypes.shape({
-        time: PropTypes.number.isRequired,
+        time: PropTypes.number || null,
         running: PropTypes.bool.isRequired,
         finished: PropTypes.bool.isRequired,
         duration: PropTypes.number,
@@ -35,7 +35,6 @@ export default class TaskList extends Component {
 
   render() {
     const { tasks, onDeleted, onToggleCompleted, onSaveEdit, timerTimes, startTimer, pauseTimer } = this.props
-
     return (
       <section className="main">
         <ul className="todo-list">

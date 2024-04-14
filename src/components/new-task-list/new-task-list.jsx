@@ -1,83 +1,66 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
 import './new-task-list.css'
 
-export default class NewTaskList extends Component {
-  static propTypes = {
-    onItemAdded: PropTypes.func,
+const NewTaskList = ({ onItemAdded }) => {
+  const [label, setLabel] = useState('')
+  const [minutes, setMinutes] = useState('')
+  const [seconds, setSeconds] = useState('')
+
+  const onLabelChange = (e) => {
+    setLabel(e.target.value)
   }
 
-  state = {
-    label: '',
-    minutes: '',
-    seconds: '',
+  const onMinutesChange = (e) => {
+    setMinutes(e.target.value)
   }
 
-  onLabelChange = (e) => {
-    this.setState({
-      label: e.target.value,
-    })
+  const onSecondsChange = (e) => {
+    setSeconds(e.target.value)
   }
 
-  onMinutesChange = (e) => {
-    this.setState({ minutes: e.target.value })
-  }
-
-  onSecondsChange = (e) => {
-    this.setState({ seconds: e.target.value })
-  }
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
-    const { label, minutes, seconds } = this.state
-
-    if (label.trim().length > 0) {
-      this.props.onItemAdded(label, minutes, seconds)
-      this.setState({
-        label: '',
-        minutes: '',
-        seconds: '',
-      })
-    } else {
-      return {}
+    if (label.trim()) {
+      onItemAdded(label, minutes, seconds)
+      setLabel('')
+      setMinutes('')
+      setSeconds('')
     }
   }
 
-  render() {
-    return (
-      <header className="header">
-        <h1>todos</h1>
-        <form onSubmit={this.onSubmit} className="new-todo-form">
-          <input
-            className="new-todo"
-            placeholder="Task"
-            onChange={this.onLabelChange}
-            value={this.state.label}
-            autoFocus
-          />
-          <input
-            className="new-todo-form__timer"
-            placeholder="Min"
-            value={this.state.minutes}
-            onChange={this.onMinutesChange}
-            type="number"
-            min="0"
-            autoFocus
-          />
-          <input
-            className="new-todo-form__timer"
-            placeholder="Sec"
-            value={this.state.seconds}
-            onChange={this.onSecondsChange}
-            type="number"
-            min="0"
-            max="59"
-            autoFocus
-          />
-          <button type="submit" className="button-hidden"></button>
-        </form>
-      </header>
-    )
-  }
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <form onSubmit={onSubmit} className="new-todo-form">
+        <input className="new-todo" placeholder="Task" value={label} onChange={onLabelChange} autoFocus />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Min"
+          value={minutes}
+          onChange={onMinutesChange}
+          type="number"
+          min="0"
+          autoFocus
+        />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          value={seconds}
+          onChange={onSecondsChange}
+          type="number"
+          min="0"
+          max="59"
+          autoFocus
+        />
+        <button type="submit" className="button-hidden"></button>
+      </form>
+    </header>
+  )
 }
+
+NewTaskList.propTypes = {
+  onItemAdded: PropTypes.func,
+}
+
+export default NewTaskList
